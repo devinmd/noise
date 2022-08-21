@@ -1,0 +1,27 @@
+:root {
+  --bg1: #e2e2e2;
+  --bg2: #ececec;
+  --bg3: #f8f8f8;
+  --bg4: #ffffff;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Helvetica;
+  background-color: var(--bg2);
+}
+
+#app {
+  background-color: var(--bg2);
+}
+
+#content {
+  padding: 32px;
+}
+
+#canv {
+  background-color: var(--bg4);
+  width: 400px;
+  height: 400px;
+}

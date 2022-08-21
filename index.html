@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- css for settings -->
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div id="content">
+      <div>
+        <button onclick="generate()">Generate</button>
+        <p id="mapsize"></p>
+        <input type="range" min="2" max="64" value="8" oninput="mapsize=this.value; cubesize=w/this.value;generate()">
+        <p id="cubecount"></p>
+        <p id="elevationcount"></p>
+        <input type="range" min="2" max="32" value="8" oninput="elevationcount=this.value; generate()">
+        <p>Smoothen</p>
+        <input type="checkbox" oninput="generate(this.value)"> <!-- wip -->
+        <p id="count"></p>
+      </div>
+      <canvas id="canv" height="400" width="400"></canvas>
+    </div>
+  </div>
+  <!-- javascript -->
+  <script src="script.js"></script>
+</body>
+
+</html>

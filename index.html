@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <!-- css for settings -->
   <link rel="stylesheet" href="style.css">
   <title>Document</title>
 </head>
@@ -14,15 +13,27 @@
       <div>
         <button onclick="generate()">Generate</button>
         <p id="mapsize"></p>
-        <input type="range" min="2" max="64" value="8" oninput="mapsize=this.value; cubesize=w/this.value;generate()">
+        <input id='mapsizeinput1' type="range" min="2" max="400" value="20" oninput="mapsize=this.value; cubesize=w/this.value;generate(); document.querySelector('#mapsizeinput2').value = this.value ">
+        <input id='mapsizeinput2' type="number" min="2" value="8" oninput="mapsize=this.value; cubesize=w/this.value;generate();document.querySelector('#mapsizeinput1').value = this.value ">
         <p id="cubecount"></p>
         <p id="elevationcount"></p>
         <input type="range" min="2" max="32" value="8" oninput="elevationcount=this.value; generate()">
-        <p>Smoothen</p>
-        <input type="checkbox" oninput="generate(this.value)"> <!-- wip -->
-        <p id="count"></p>
+        <br>
+
+        <input type="radio" name="age" value="0" checked oninput="mode = this.value; generate()">
+        <label>No Pattern</label>
+
+        <br>
+
+        <input type="radio" name="age" value="1" oninput="mode = this.value; generate()">
+        <label>Left & Above</label>
+        <br>
+        <input type="radio" name="age" value="2" oninput="mode = this.value; generate()">
+        <label>Average Left & Above</label>
+
       </div>
       <canvas id="canv" height="400" width="400"></canvas>
+      <p id="count"></p>
     </div>
   </div>
   <!-- javascript -->

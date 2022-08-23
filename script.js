@@ -1,6 +1,6 @@
 //map
 var map = [];
-var mapsize = 8;
+var mapsize = 20;
 // elevation
 var elevationcount = 10;
 var contrast = 10;
@@ -37,10 +37,11 @@ function generate() {
       // across
       map[i] = [];
       for (let e = 0; e < mapsize; e++) {
-        let change = Math.floor(Math.random() * 5) - 2; // -2 -1 0 1 2
-        if (change == -2 || change == 2) {
+        let change = Math.floor(Math.random() * 7) - 3; // -3 -2 -1 0 1 2 3
+        if (change == -3 || change == 3 || change == 2 || change == -2) {
           change = 0;
-          // -1, 0, 0, 0, 1
+          // 0 0 1 0 1 0 0
+          // 5:2
         }
         // down
         if (e == 0 && i == 0) {
@@ -60,7 +61,7 @@ function generate() {
             // is the first inside of column
             // left
             map[i][e] = { elevation: map[i - 1][e].elevation + change };
-            if (map[i - 1][e].elevation + change < 0 || map[i - 1][e].elevation + change > elevationcount) {
+            if (map[i - 1][e].elevation + change < 0 || map[i - 1][e].elevation + change > elevationcount - 1) {
               // if its below 0 or above the max, just set it to the one before it
               map[i][e] = { elevation: map[i - 1][e].elevation };
             }
@@ -69,7 +70,7 @@ function generate() {
             // is not first inside column
             // above
             map[i][e] = { elevation: map[i][e - 1].elevation + change };
-            if (map[i][e - 1].elevation + change < 0 || map[i][e - 1].elevation + change > elevationcount) {
+            if (map[i][e - 1].elevation + change < 0 || map[i][e - 1].elevation + change > elevationcount - 1) {
               // if its below 0 or above the max, just set it to the one before it
               map[i][e] = { elevation: map[i][e - 1].elevation };
             }
@@ -93,33 +94,34 @@ function generate() {
       // across
       map[i] = [];
       for (let e = 0; e < mapsize; e++) {
-        let change = Math.floor(Math.random() * 5) - 2; // -2 -1 0 1 2
-        if (change == -2 || change == 2) {
+        let change = Math.floor(Math.random() * 7) - 3; // -3 -2 -1 0 1 2 3
+        if (change == -3 || change == 3 || change == 2 || change == -2) {
           change = 0;
-          // -1, 0, 0, 0, 1
+          // 0 0 1 0 1 0 0
+          // 5:2
         }
         // down
         if (e == 0 && i == 0) {
-          map[i][e] = { elevation: Math.floor(Math.random() * (parseInt(elevationcount) + 1)) }; // set very first cube to a random number inside of elevationcount
+          map[i][e] = { elevation: Math.floor(Math.random() * parseInt(elevationcount)) }; // set very first cube to a random number inside of elevationcount
         } else {
           if (i == 0) {
             // first column
             map[i][e] = { elevation: map[i][e - 1].elevation + change };
             // clamp
-            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount) {
+            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount - 1) {
               map[i][e] = { elevation: map[i][e - 1].elevation };
             }
           } else if (e == 0) {
             // first in column
             map[i][e] = { elevation: map[i - 1][e].elevation + change };
             // clamp
-            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount) {
+            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount - 1) {
               map[i][e] = { elevation: map[i - 1][e].elevation };
             }
           } else {
             map[i][e] = { elevation: (map[i][e - 1].elevation + map[i - 1][e].elevation) / 2 + change };
             // clamp
-            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount) {
+            if (map[i][e].elevation < 0 || map[i][e].elevation > elevationcount - 1) {
               map[i][e] = { elevation: (map[i][e - 1].elevation + map[i - 1][e].elevation) / 2 };
             }
           }
@@ -140,16 +142,24 @@ function generate() {
       let y = e * cubesize;
       // draw cube
       ctx.fillRect(x, y, cubesize, cubesize);
-      count[map[i][e].elevation] += 1;
+
+      count[Math.floor(map[i][e].elevation)] += 1;
     }
   }
   document.querySelector("#mapsize").innerHTML = "Map Size: " + mapsize + "x" + mapsize;
   document.querySelector("#cubecount").innerHTML = "Cube Count: " + mapsize * mapsize;
   document.querySelector("#elevationcount").innerHTML = "Elevation Range: " + elevationcount;
   let weight = 100 / (mapsize * mapsize);
-  document.querySelector("#count").innerHTML = "";
+  document.querySelector("#count").innerHTML = "<strong>Elevation Distribution:</strong><br>";
+  let max = Math.max(...count);
+
   for (let p = 0; p < elevationcount; p++) {
-    document.querySelector("#count").innerHTML += p + ": " + count[p] + " (" + count[p] * weight + "%)" + "<br> ";
+    if (p == count.indexOf(max)) {
+      document.querySelector("#count").innerHTML +=
+        "<strong>" + p + ": " + count[p] + " (" + count[p] * weight + "%)" + "</strong><br> ";
+    } else {
+      document.querySelector("#count").innerHTML += p + ": " + count[p] + " (" + count[p] * weight + "%)" + "<br> ";
+    }
   }
 }
 

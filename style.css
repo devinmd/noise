@@ -27,7 +27,21 @@ body {
 
 #canv {
   background-color: var(--bg4);
-  width: 75%;
-  height: 75;
+  width: 50%;
+  display: inline-block;
+  height: 50%;
+  vertical-align: top;
+  min-width: 400px;
+  min-height: 400px;
   image-rendering: pixelated;
+}
+#count {
+  display: inline-block;
+  margin-left: 16px;
+}
+
+
+hr{
+  border: none;
+  border-top: 1px solid gray;
 }

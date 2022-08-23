@@ -37,11 +37,10 @@ function generate() {
       // across
       map[i] = [];
       for (let e = 0; e < mapsize; e++) {
-        let change = Math.floor(Math.random() * 7) - 3; // -3 -2 -1 0 1 2 3
-        if (change == -3 || change == 3 || change == 2 || change == -2) {
+        let change = (Math.floor(Math.random() * 17) - 8) / 4; // -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 1.25 1.5 1.75 2
+        if (change < -1 || change > 1) {
           change = 0;
-          // 0 0 1 0 1 0 0
-          // 5:2
+          // 0 0 0 0 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
         }
         // down
         if (e == 0 && i == 0) {
@@ -94,11 +93,10 @@ function generate() {
       // across
       map[i] = [];
       for (let e = 0; e < mapsize; e++) {
-        let change = Math.floor(Math.random() * 7) - 3; // -3 -2 -1 0 1 2 3
-        if (change == -3 || change == 3 || change == 2 || change == -2) {
+        let change = (Math.floor(Math.random() * 17) - 8) / 4; // -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 1.25 1.5 1.75 2
+        if (change < -1 || change > 1) {
           change = 0;
-          // 0 0 1 0 1 0 0
-          // 5:2
+          // 0 0 0 0 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
         }
         // down
         if (e == 0 && i == 0) {

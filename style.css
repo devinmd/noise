@@ -41,7 +41,7 @@ canvas {
 
 #count p {
   margin: 0;
-  padding: 1px 0 1px 4px;
+  padding: 2px 0 2px 4px;
   font-size: 13px;
   border: 1px solid transparent;
   white-space: nowrap;

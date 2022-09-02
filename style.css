@@ -34,11 +34,21 @@ canvas {
   image-rendering: pixelated;
 }
 
-
 #count {
   display: inline-block;
-  margin-left: 16px;
+  margin-left: 32px;
 }
+
+#count p {
+  margin: 0;
+  padding: 1px 0 1px 4px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  display: table;
+  width: auto;
+}
+
 
 hr {
   border: none;

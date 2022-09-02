@@ -28,7 +28,7 @@ var w = canv.width;
 var cubesize = w / mapsize;
 
 // counter
-var count = [];
+var count = {};
 
 function init() {
   generate();
@@ -40,7 +40,7 @@ function init() {
 
 function generate() {
   // reset count and clear canvas
-  count = Array(64).fill(0);
+  count = Array(32).fill(0);
   map = [];
   left = 0;
   above = 0;
@@ -54,9 +54,11 @@ function generate() {
     map[i] = [];
     for (let e = 0; e < parseInt(mapsize) + 2; e++) {
       // down
-      map[i][e] = { elevation: Math.floor(Math.random() * elevationcount) };
+      map[i][e] = { elevation: Math.floor(Math.random() * 10 * elevationcount) / 10 };
     }
   }
+
+  console.log(map);
 
   // iterate through again and smoothen
   for (let p = 0; p < smoothen_iterations; p++) {
@@ -64,8 +66,6 @@ function generate() {
     for (let s = 1; s < parseInt(mapsize) + 1; s++) {
       // down
       for (let c = 1; c < parseInt(mapsize) + 1; c++) {
-        console.log(s + ", " + c);
-
         // neighboring values
         let ul = map[s - 1][c + 1].elevation; // up left
         let u = map[s][c - 1].elevation; // up
@@ -102,6 +102,7 @@ function generate() {
     }
   }
 
+  // if smoothening is 0
   if (smoothen_iterations == 0) {
     for (let s = 1; s < parseInt(mapsize) + 1; s++) {
       for (let c = 1; c < parseInt(mapsize) + 1; c++) {
@@ -122,20 +123,42 @@ function generate() {
     }
   }
 
+  //
   document.querySelector("#mapsize").innerHTML = "Map Size: " + mapsize + "x" + mapsize;
   document.querySelector("#cubecount").innerHTML = "Cube Count: " + mapsize * mapsize;
   document.querySelector("#elevationcount").innerHTML = "Elevation Range: " + elevationcount;
+  document.querySelector("#count-container").innerHTML = "";
+
+  // % weight of each cube
   let weight = 100 / (mapsize * mapsize);
-  document.querySelector("#count").innerHTML = "<strong>Elevation Distribution: (Floored)</strong><br>";
+
+  // find most common value
   let max = Math.max(...count);
 
+  //
+  let te = canv.getBoundingClientRect().width / 1.8 / max;
+
+  //
   for (let p = 0; p < elevationcount; p++) {
-    if (p == count.indexOf(max)) {
-      document.querySelector("#count").innerHTML +=
-        "<strong>" + p + ": " + count[p] * weight + "% (" + count[p] + ")" + "</strong><br> ";
+    let t = document.createElement("p");
+    if (count[p] == max) {
+      t.innerHTML =
+        "<strong>" + p + ": " + Math.floor(count[p] * weight * 1000) / 1000 + "% (" + count[p] + ")</strong>";
     } else {
-      document.querySelector("#count").innerHTML += p + ": " + count[p] * weight + "% (" + count[p] + ")" + "<br> ";
+      t.innerHTML = p + ": " + Math.floor(count[p] * weight * 1000) / 1000 + "% (" + count[p] + ")";
     }
+
+    // visuals
+    t.style.paddingRight = count[p] * te + 4 + "px";
+
+    // colors
+    t.style.backgroundColor = `rgb(
+      ${255 - p * (contrast + rgbweight.r)},
+      ${255 - p * (contrast + rgbweight.g)},
+      ${255 - p * (contrast + rgbweight.b)})`;
+
+    // apppend
+    document.querySelector("#count-container").append(t);
   }
 }
 

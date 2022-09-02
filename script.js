@@ -104,23 +104,7 @@ function generate() {
 
   // if smoothening is 0
   if (smoothen_iterations == 0) {
-    for (let s = 1; s < parseInt(mapsize) + 1; s++) {
-      for (let c = 1; c < parseInt(mapsize) + 1; c++) {
-        ctx.fillStyle = `rgb(
-          ${255 - map[s][c].elevation * (contrast + rgbweight.r)},
-          ${255 - map[s][c].elevation * (contrast + rgbweight.g)},
-          ${255 - map[s][c].elevation * (contrast + rgbweight.b)}
-    
-          )`;
-        // location
-        let x = (s - 1) * cubesize;
-        let y = (c - 1) * cubesize;
-        // draw cube
-        ctx.fillRect(x, y, cubesize, cubesize);
-
-        count[Math.floor(map[s][c].elevation)] += 1;
-      }
-    }
+    render()
   }
 
   //
@@ -163,3 +147,24 @@ function generate() {
 }
 
 init();
+
+
+function render(){
+	for (let s = 1; s < parseInt(mapsize) + 1; s++) {
+      for (let c = 1; c < parseInt(mapsize) + 1; c++) {
+        ctx.fillStyle = `rgb(
+          ${255 - map[s][c].elevation * (contrast + rgbweight.r)},
+          ${255 - map[s][c].elevation * (contrast + rgbweight.g)},
+          ${255 - map[s][c].elevation * (contrast + rgbweight.b)}
+    
+          )`;
+        // location
+        let x = (s - 1) * cubesize;
+        let y = (c - 1) * cubesize;
+        // draw cube
+        ctx.fillRect(x, y, cubesize, cubesize);
+
+        count[Math.floor(map[s][c].elevation)] += 1;
+      }
+    }
+}

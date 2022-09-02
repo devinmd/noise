@@ -19,12 +19,15 @@
 				<input id='mapsizeinput2' type="number" min="2" oninput="mapsize=this.value; cubesize=w/this.value;generate();document.querySelector('#mapsizeinput1').value = this.value ">
 				<p id="cubecount"></p>
 				<hr>
-
-				<p id="smootheniterations">Smoothening Iterations:</p>
+				<p>Smoothening Iterations:</p>
 				<input type="number" id='smootheniterationsinput' min="0" oninput="smoothen_iterations=this.value; generate()">
 				<br>
 				<hr>
 
+				<div>
+				<p>Elevation Contrast:</p>
+				<input type="number" id='elevationcontrastinput' min="0" oninput="contrast=this.value; render()">
+</div>
 				<p id="elevationcount"></p>
 				<input type="range" min="2" max="32" value="8" oninput="elevationcount=this.value; generate()">
 				<br>

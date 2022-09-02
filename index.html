@@ -11,19 +11,17 @@
 	<div id="app">
 		<div id="content">
 			<div>
-				<h3>Noise Generator</h3>
+				<h2 style="margin: 0;">Noise Generator</h2>
 				<p>Source Code: <a href="https://github.com/devinmd/noise">https://github.com/devinmd/noise</a></p>
 				<hr>
 				<p id="mapsize"></p>
-				<input id='mapsizeinput1' type="range" step="5" min="5" value="20" max="200"
-					oninput="mapsize=this.value; cubesize=w/this.value;generate(); document.querySelector('#mapsizeinput2').value = this.value ">
-				<input id='mapsizeinput2' type="number" min="2" value="20"
-					oninput="mapsize=this.value; cubesize=w/this.value;generate();document.querySelector('#mapsizeinput1').value = this.value ">
+				<input id='mapsizeinput1' type="range" step="5" min="5" max="200" oninput="mapsize=this.value; cubesize=w/this.value;generate(); document.querySelector('#mapsizeinput2').value = this.value ">
+				<input id='mapsizeinput2' type="number" min="2" oninput="mapsize=this.value; cubesize=w/this.value;generate();document.querySelector('#mapsizeinput1').value = this.value ">
 				<p id="cubecount"></p>
-					<hr>
+				<hr>
 
-				<p id="smootheniterations"></p>
-				<input type="number" min="0" value="1" oninput="smoothen_iterations=this.value; generate()">
+				<p id="smootheniterations">Smoothen Iterations:</p>
+				<input type="number" id='smootheniterationsinput' min="0" oninput="smoothen_iterations=this.value; generate()">
 				<br>
 				<hr>
 
@@ -36,6 +34,8 @@
 			</div>
 			<canvas id="canv" height="400" width="400"></canvas>
 			<p id="count"></p>
+
+
 		</div>
 	</div>
 	<!-- javascript -->

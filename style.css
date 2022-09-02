@@ -7,7 +7,6 @@
 
 * {
   image-rendering: pixelated;
-
 }
 
 body {
@@ -22,26 +21,26 @@ body {
 }
 
 #content {
-  padding: 32px;
+  padding: 64px;
 }
 
-#canv {
-  background-color: var(--bg4);
+canvas {
   width: 50%;
   display: inline-block;
-  height: 50%;
+  background-color: transparent;
   vertical-align: top;
   min-width: 400px;
   min-height: 400px;
   image-rendering: pixelated;
 }
+
+
 #count {
   display: inline-block;
   margin-left: 16px;
 }
 
-
-hr{
+hr {
   border: none;
   border-top: 1px solid gray;
 }

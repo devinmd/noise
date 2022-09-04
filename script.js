@@ -1,3 +1,5 @@
+// make the graph % forced to 3 decimals
+
 // list of all values
 var map = [];
 
@@ -35,6 +37,7 @@ function init() {
 
   document.querySelector("#mapsizeinput1").value = mapsize;
   document.querySelector("#mapsizeinput2").value = mapsize;
+  document.querySelector("#contrastinput").value = contrast;
   document.querySelector("#smootheniterationsinput").value = smoothen_iterations;
 }
 
@@ -104,14 +107,45 @@ function generate() {
 
   // if smoothening is 0
   if (smoothen_iterations == 0) {
-    render()
+    render();
   }
 
   //
-  document.querySelector("#mapsize").innerHTML = "Map Size: " + mapsize + "x" + mapsize;
-  document.querySelector("#cubecount").innerHTML = "Cube Count: " + mapsize * mapsize;
+  document.querySelector("#mapsize").innerHTML = "Map Size: " + mapsize + "x" + mapsize + ' (' + mapsize*mapsize + " Cubes )";
   document.querySelector("#elevationcount").innerHTML = "Elevation Range: " + elevationcount;
-  document.querySelector("#count-container").innerHTML = "";
+  document.querySelector("#contrast").innerHTML = "Elevation Color Contrast: " + contrast
+
+  graph();
+}
+
+init();
+
+function render() {
+  document.querySelector("#contrast").innerHTML = "Elevation Color Contrast: " + contrast
+
+  count = Array(32).fill(0);
+
+  for (let s = 1; s < parseInt(mapsize) + 1; s++) {
+    for (let c = 1; c < parseInt(mapsize) + 1; c++) {
+      ctx.fillStyle = `rgb(
+          ${255 - map[s][c].elevation * (contrast + rgbweight.r)},
+          ${255 - map[s][c].elevation * (contrast + rgbweight.g)},
+          ${255 - map[s][c].elevation * (contrast + rgbweight.b)}
+    
+          )`;
+      // location
+      let x = (s - 1) * cubesize;
+      let y = (c - 1) * cubesize;
+      // draw cube
+      ctx.fillRect(x, y, cubesize, cubesize);
+
+      count[Math.floor(map[s][c].elevation)] += 1;
+    }
+  }
+}
+
+function graph() {
+  document.querySelector("#graph-container").innerHTML = "";
 
   // % weight of each cube
   let weight = 100 / (mapsize * mapsize);
@@ -120,16 +154,15 @@ function generate() {
   let max = Math.max(...count);
 
   //
-  let te = canv.getBoundingClientRect().width / 1.8 / max;
+  let te = canv.getBoundingClientRect().width / max;
 
   //
   for (let p = 0; p < elevationcount; p++) {
     let t = document.createElement("p");
     if (count[p] == max) {
-      t.innerHTML =
-        "<strong>" + p + ": " + Math.floor(count[p] * weight * 1000) / 1000 + "% (" + count[p] + ")</strong>";
+      t.innerHTML = "<strong>" + p + ": " + (count[p] * weight).toFixed(2) + "% (" + count[p] + ")</strong>";
     } else {
-      t.innerHTML = p + ": " + Math.floor(count[p] * weight * 1000) / 1000 + "% (" + count[p] + ")";
+      t.innerHTML = p + ": " + (count[p] * weight).toFixed(2) + "% (" + count[p] + ")";
     }
 
     // visuals
@@ -137,34 +170,11 @@ function generate() {
 
     // colors
     t.style.backgroundColor = `rgb(
-      ${255 - p * (contrast + rgbweight.r)},
-      ${255 - p * (contrast + rgbweight.g)},
-      ${255 - p * (contrast + rgbweight.b)})`;
+    ${255 - p * (contrast + rgbweight.r)},
+    ${255 - p * (contrast + rgbweight.g)},
+    ${255 - p * (contrast + rgbweight.b)})`;
 
     // apppend
-    document.querySelector("#count-container").append(t);
+    document.querySelector("#graph-container").append(t);
   }
-}
-
-init();
-
-
-function render(){
-	for (let s = 1; s < parseInt(mapsize) + 1; s++) {
-      for (let c = 1; c < parseInt(mapsize) + 1; c++) {
-        ctx.fillStyle = `rgb(
-          ${255 - map[s][c].elevation * (contrast + rgbweight.r)},
-          ${255 - map[s][c].elevation * (contrast + rgbweight.g)},
-          ${255 - map[s][c].elevation * (contrast + rgbweight.b)}
-    
-          )`;
-        // location
-        let x = (s - 1) * cubesize;
-        let y = (c - 1) * cubesize;
-        // draw cube
-        ctx.fillRect(x, y, cubesize, cubesize);
-
-        count[Math.floor(map[s][c].elevation)] += 1;
-      }
-    }
 }

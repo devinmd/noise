@@ -25,7 +25,7 @@ body {
 }
 
 canvas {
-  width: 50%;
+  width: 40%;
   display: inline-block;
   background-color: transparent;
   vertical-align: top;
@@ -34,12 +34,12 @@ canvas {
   image-rendering: pixelated;
 }
 
-#count {
+#graph {
   display: inline-block;
   margin-left: 32px;
 }
 
-#count p {
+#graph p {
   margin: 0;
   padding: 2px 0 2px 4px;
   font-size: 13px;

@@ -45,8 +45,6 @@ function generate() {
   // reset count and clear canvas
   count = Array(32).fill(0);
   map = [];
-  left = 0;
-  above = 0;
   ctx.clearRect(0, 0, canv.width, canv.height);
 
   // create the first map iteration, completely random
@@ -70,14 +68,14 @@ function generate() {
       // down
       for (let c = 1; c < parseInt(mapsize) + 1; c++) {
         // neighboring values
-        let ul = map[s - 1][c + 1].elevation; // up left
-        let u = map[s][c - 1].elevation; // up
-        let ur = map[s + 1][c + 1].elevation; // up right
-        let r = map[s + 1][c].elevation; // right
-        let dr = map[s + 1][c + 1].elevation; // down right
-        let d = map[s][c + 1].elevation; // down
-        let dl = map[s + 1][c - 1].elevation; // down left
-        let l = map[s - 1][c].elevation; // down left
+        let ul = map[s - 1][c - 1].elevation; // up left     s   - -
+        let u = map[s][c - 1].elevation; // up               s   x -
+        let ur = map[s + 1][c + 1].elevation; // up right    s   + +
+        let r = map[s + 1][c].elevation; // right            s   + x
+        let dr = map[s - 1][c + 1].elevation; // down right  s   - +
+        let d = map[s][c + 1].elevation; // down             s   x +
+        let dl = map[s + 1][c - 1].elevation; // down left   s   + -
+        let l = map[s - 1][c].elevation; // down left        s   - x
 
         // average value
         let a = (ul + u + ur + r + dr + d + dl + l) / 8;
